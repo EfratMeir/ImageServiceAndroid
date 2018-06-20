@@ -35,6 +35,7 @@ public class ImageService extends Service {
     {
         Toast.makeText(this, "Service starting...",
                 Toast.LENGTH_SHORT).show();
+
         connectBroadcast();
 
         return START_STICKY;
