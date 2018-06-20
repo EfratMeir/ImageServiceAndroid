@@ -55,24 +55,24 @@ public class TcpClient {
             @Override
             public void run() {
         File[] pics = directoryHandler.getImages();
-        if (pics != null)
-        {
-            for (File pic : pics)
-            {
-                try{
-                    String lala = new String("lalala ");
-                    byte[] lal = lala.getBytes();
-                    output.write(lal,0, lal.length );
-                    output.flush();
-                    Thread.sleep(100);
+                if (pics != null)
+                {
+                    for (File pic : pics)
+                    {
+                        try{
+                            String lala = new String("lalala ");
+                            byte[] lal = lala.getBytes();
+                            output.write(lal,0, lal.length );
+                            output.flush();
+                            Thread.sleep(100);
+                        }
+                        catch (Exception e) {
+                            Log.e("TCP", "S: Error", e);
+                        }
+                        sendOnePicToserver(pic);
+                    }
+                    sendEndMsg();
                 }
-                catch (Exception e) {
-                    Log.e("TCP", "S: Error", e);
-                }
-                sendOnePicToserver(pic);
-            }
-            sendEndMsg();
-        }
             }
         });
         thread.start();
