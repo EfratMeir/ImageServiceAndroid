@@ -37,7 +37,17 @@ public class ImageService extends Service {
                 Toast.LENGTH_SHORT).show();
 
         connectBroadcast();
+//tryout -  progress bar:
+        final Context context = this;
+        new Thread() {
 
+            @Override
+            public void run() {
+                ProgressBarHandler pbHandler = new ProgressBarHandler(new ProgressBar(50));
+                pbHandler.DisplayProgressBar(context);
+            }
+        }.start();
+        //end tryout
         return START_STICKY;
     }
 

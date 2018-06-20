@@ -59,17 +59,8 @@ public class TcpClient {
                 {
                     for (File pic : pics)
                     {
-                        try{
-                            String lala = new String("lalala ");
-                            byte[] lal = lala.getBytes();
-                            output.write(lal,0, lal.length );
-                            output.flush();
-                            Thread.sleep(100);
-                        }
-                        catch (Exception e) {
-                            Log.e("TCP", "S: Error", e);
-                        }
                         sendOnePicToserver(pic);
+                        
                     }
                     sendEndMsg();
                 }
@@ -101,14 +92,25 @@ public class TcpClient {
             FileInputStream fis = new FileInputStream(pic);
             Bitmap bm = BitmapFactory.decodeStream(fis);
             final byte[] imgbyte = ConvertPicToByte(bm); // if its not final it doesnt work
+            //send the image name
+            byte[] name = pic.getName().getBytes();
+            output.write(name,0, name.length );
+            output.flush();
+            Thread.sleep(100);
 
-            //now send the pic to the server!!!!
+            //send the image size
+            byte[] size = (imgbyte.length + " ").getBytes();
+            output.write(size,0, size.length );
+            output.flush();
+            Thread.sleep(100);
+;
 
-                            String lala = new String("lalala ");
-                            byte[] lal = lala.getBytes();
-                            output.write(lal,0, lal.length );
-                            output.flush();
-                            Thread.sleep(100);
+            //send the image
+            output.write(imgbyte,0, imgbyte.length );
+            output.flush();
+            Thread.sleep(100);
+
+;
 
         }
         catch (Exception e)
@@ -121,7 +123,7 @@ public class TcpClient {
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 70, stream);
-        return stream .toByteArray();
+        return stream.toByteArray();
 
     }
 
