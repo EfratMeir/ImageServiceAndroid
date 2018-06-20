@@ -18,22 +18,80 @@ import static android.util.Base64.encodeToString;
 public class TcpClient {
 
     private DirectoryHandler directoryHandler;
+    private InetAddress serverAddr;
+    private Socket socket;
+    private OutputStream output;
 
     public TcpClient(){
         this.directoryHandler = new DirectoryHandler();
+        connetToServer();
+    }
+    public void connetToServer(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try{
+                    serverAddr = InetAddress.getByName("10.0.2.2");
+                    socket = new Socket(serverAddr,8100 ); // check port number
+                    try {
+                        //send msg to server
+                        output = socket.getOutputStream();
+                    }
+
+                    catch (Exception e) {
+                        Log.e("TCP", "S: Error", e);
+                    }
+                }catch (Exception e){
+                    Log.e("TCP", "S: Error", e);
+                }
+            }
+        });
+        thread.start();
     }
     public void SendAllPicsToServer()
     {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
         File[] pics = directoryHandler.getImages();
         if (pics != null)
         {
             for (File pic : pics)
             {
+                try{
+                    String lala = new String("lalala ");
+                    byte[] lal = lala.getBytes();
+                    output.write(lal,0, lal.length );
+                    output.flush();
+                    Thread.sleep(100);
+                }
+                catch (Exception e) {
+                    Log.e("TCP", "S: Error", e);
+                }
                 sendOnePicToserver(pic);
             }
+            sendEndMsg();
+        }
+            }
+        });
+        thread.start();
+    }
+    public void  sendEndMsg(){
+        try{
+            try{
+                String done = new String("done ");
+                byte[] doneBytes = done.getBytes();
+                output.write(doneBytes,0, doneBytes.length );
+                output.flush();
+            }
+            catch (Exception e) {
+                Log.e("TCP", "S: Error", e);
+            }
+        }catch (Exception e){
+            Log.e("TCP", "S: Error", e);
         }
     }
-
     public void sendOnePicToserver(File pic)
     {
         //Log.d("myTag", "This is my message");
@@ -45,40 +103,12 @@ public class TcpClient {
             final byte[] imgbyte = ConvertPicToByte(bm); // if its not final it doesnt work
 
             //now send the pic to the server!!!!
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
 
-                   try{
-                        InetAddress serverAddr = InetAddress.getByName("10.0.2.2");
-                        Socket socket = new Socket(serverAddr,8000 ); // check port number
-
-
-                        try {
-                            //send msg to server
-                            OutputStream output = socket.getOutputStream();
-                            // FileInputStream fis = new FileInputStream(pic);
-//                            int flags = Base64.NO_WRAP | Base64.URL_SAFE;
-//                            String imgString = encodeToString(imgbyte, flags);
-//                            String[] args = new String[2];
-//                           args[0] = imgString;
-//                            Command cmd = new Command(3, args, null);
-//                            byte[] msg = cmd.toString().getBytes();
-
-                            output.write(imgbyte);
+                            String lala = new String("lalala ");
+                            byte[] lal = lala.getBytes();
+                            output.write(lal,0, lal.length );
                             output.flush();
-                        }
-                        catch (Exception e){
-                            Log.e("TCP", "S: Error", e);
-                        }finally {
-                            socket.close();
-                        }
-                    }catch (Exception e){
-                        Log.e("TCP", "S: Error", e);
-                    }
-                }
-            });
-            thread.start();
+                            Thread.sleep(100);
 
         }
         catch (Exception e)
