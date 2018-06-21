@@ -11,13 +11,11 @@ import java.util.Collection;
 import java.util.List;
 public class DirectoryHandler {
 private int numOfPics = 0;
-//    List<File> pics;
-//
-//    public DirectoryHandler(){
-//        pics = new ArrayList<File>();
-//
-//    }
 
+    /**
+     * get all images from DCIM directory
+     * @return
+     */
     public File[] getImages()
     {
         File dcim = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM+ "/Camera");
@@ -26,33 +24,34 @@ private int numOfPics = 0;
             return null;
         }
         final List<File> pics = new ArrayList<File>();
-
-        getAllDirs(dcim, pics);
-
+        getAllPics(dcim, pics);
         numOfPics = pics.size();
         return pics.toArray(new File[numOfPics]);
 
-//        File dcim = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM+ "/Camera");
-//        if(dcim == null)
-//        {
-//            return null;
-//        }
-//        File[] pics = dcim.listFiles();
-//        numOfPics = pics.length;
-//        return pics;
     }
-    public void getAllDirs(File path, List<File> files){
+
+    /**
+     * get all paths of pics from sub directories
+     * @param path
+     * @param files
+     */
+    public void getAllPics(File path, List<File> files){
         // Get all the files from a directory.
         File[] fList = path.listFiles();
         for (File file : fList) {
             if (file.isFile()) {
                 files.add(file);
             } else if (file.isDirectory()) {
-                getAllDirs(file.getAbsoluteFile(), files);
+                getAllPics(file.getAbsoluteFile(), files);
             }
         }
 
     }
+
+    /**
+     * get the number of pics
+     * @return
+     */
     public int getNumPics()
     {
         return this.numOfPics;

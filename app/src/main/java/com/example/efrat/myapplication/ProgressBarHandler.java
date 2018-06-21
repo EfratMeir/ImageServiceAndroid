@@ -27,8 +27,10 @@ public class ProgressBarHandler {
         this.pb = pb;
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+    /**
+     * display the progress bar
+     */
     public void DisplayProgressBar(Context context) {
 
         String channelId = "ImageServiceApp";

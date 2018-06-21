@@ -35,22 +35,34 @@ public class ImageService extends Service {
         //put here code for the service
     }
 
+    /**
+     * start the app
+     * @param intent
+     * @param flag
+     * @param startId
+     * @return
+     */
     public int onStartCommand(Intent intent, int flag, int startId)
     {
         Toast.makeText(this, "Service starting...",
                 Toast.LENGTH_SHORT).show();
-
         connectBroadcast();
         return START_STICKY;
     }
 
+    /**
+     * end the app
+     */
     public void onDestroy()
     {
-
         Toast.makeText(this, "Service ending...",
                 Toast.LENGTH_SHORT).show();
         client.closeSocket();
     }
+
+    /**
+     * connect to broadcast.
+     */
     public void connectBroadcast(){
         final IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.wifi.supplicant.CONNECTION_CHANGE");

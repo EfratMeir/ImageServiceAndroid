@@ -19,10 +19,7 @@ public class ProgressBar {
         return this.limit;
     }
 
-//    public void setLimit(int numOfPics)
-//    {
-//        this.limit = numOfPics;
-//    }
+
     public int getTransferd()
     {
         return this.transfered;

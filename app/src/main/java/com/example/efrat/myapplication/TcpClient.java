@@ -31,6 +31,10 @@ public class TcpClient {
         this.context = context;
         connetToServer();
     }
+
+    /**
+     * connect to ImageService server.
+     */
     public void connetToServer(){
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -54,6 +58,10 @@ public class TcpClient {
         });
         thread.start();
     }
+
+    /**
+     * send all pics to server
+     */
     public void SendAllPicsToServer()
     {
         Thread thread = new Thread(new Runnable() {
@@ -71,9 +79,10 @@ public class TcpClient {
                     }
                     else //pics list size is 0
                     {
-                        Toast.makeText(context, "There are no images to transfer",
-                                Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, "There are no images to transfer",
+//                                Toast.LENGTH_LONG).show();
                     }
+                    //send each pic to server
                     for (File pic : pics)
                     {
                         sendOnePicToserver(pic);
@@ -84,13 +93,17 @@ public class TcpClient {
                 }
            else //pics is null
            {
-               Toast.makeText(context, "There are no images to transfer",
-                       Toast.LENGTH_LONG).show();
+//               Toast.makeText(context, "There are no images to transfer",
+//                       Toast.LENGTH_LONG).show();
            }
             }
         });
         thread.start();
     }
+
+    /**
+     * when there's no more pics, send to server 'done'
+     */
     public void  sendEndMsg(){
         try{
             try{
@@ -106,6 +119,11 @@ public class TcpClient {
             Log.e("TCP", "S: Error", e);
         }
     }
+
+    /**
+     * send one pic to server
+     * @param pic
+     */
     public void sendOnePicToserver(File pic)
     {
         //Log.d("myTag", "This is my message");
@@ -114,7 +132,7 @@ public class TcpClient {
         {
             FileInputStream fis = new FileInputStream(pic);
             Bitmap bm = BitmapFactory.decodeStream(fis);
-            final byte[] imgbyte = ConvertPicToByte(bm); // if its not final it doesnt work
+            final byte[] imgbyte = ConvertPicToByte(bm);
             //send the image name
             byte[] name = pic.getName().getBytes();
             output.write(name,0, name.length );
@@ -126,14 +144,11 @@ public class TcpClient {
             output.write(size,0, size.length );
             output.flush();
             Thread.sleep(100);
-;
 
             //send the image
             output.write(imgbyte,0, imgbyte.length );
             output.flush();
             Thread.sleep(100);
-
-;
 
         }
         catch (Exception e)
@@ -141,14 +156,12 @@ public class TcpClient {
             e.printStackTrace();
         }
     }
-    public void closeSocket(){
-        try{
-            this.socket.close();
-        }
-        catch (Exception e) {
-            Log.e("TCP", "S: Error", e);
-        }
-    }
+
+    /**
+     * convert the pic to byte array
+     * @param bitmap
+     * @return
+     */
     public byte[] ConvertPicToByte(Bitmap bitmap)
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -157,6 +170,9 @@ public class TcpClient {
 
     }
 
+    /**
+     * close the socket.
+     */
     public void closeSocket(){
         try{
             this.socket.close();
