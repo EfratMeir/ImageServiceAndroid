@@ -42,14 +42,14 @@ public class ProgressBarHandler {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "ImageServiceApp");
         builder.setContentTitle("Picture Transfer")
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentText("Transfer in progress")
+                .setContentText("Transfer in progress...")
                 .setPriority(NotificationCompat.PRIORITY_LOW);
 
         while (!pb.isFinished()) {
             builder.setProgress(pb.getLimit(), pb.getTransferd(), false);
             notificationManager.notify(0, builder.build());
             try {
-                Thread.sleep(400);
+                Thread.sleep(200);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -57,7 +57,7 @@ public class ProgressBarHandler {
         }
 
         builder.setProgress(0, 0, false);
-        builder.setContentText("Transfer Completed. " + pb.getTransferd() + "Images Transferd.");
+        builder.setContentText("Transfer Completed. " + pb.getTransferd() + " Images Transferred.");
         notificationManager.notify(0, builder.build());
 
     }
