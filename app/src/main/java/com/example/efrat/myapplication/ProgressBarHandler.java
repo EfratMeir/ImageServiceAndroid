@@ -20,17 +20,16 @@ public class ProgressBarHandler {
 
     /**
      * constructor
+     *
      * @param pb - progress bar
      */
-    public ProgressBarHandler(ProgressBar pb)
-    {
+    public ProgressBarHandler(ProgressBar pb) {
         this.pb = pb;
     }
 
 
-    @RequiresApi( api = Build.VERSION_CODES.O)
-    public void DisplayProgressBar(Context context)
-    {
+    @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+    public void DisplayProgressBar(Context context) {
 
         String channelId = "ImageServiceApp";
         CharSequence channelName = "ImageServiceAndroid";
@@ -46,16 +45,12 @@ public class ProgressBarHandler {
                 .setContentText("Transfer in progress")
                 .setPriority(NotificationCompat.PRIORITY_LOW);
 
-        while(!pb.isFinished())
-        {
+        while (!pb.isFinished()) {
             builder.setProgress(pb.getLimit(), pb.getTransferd(), false);
             notificationManager.notify(0, builder.build());
-            try
-            {
+            try {
                 Thread.sleep(400);
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -63,11 +58,7 @@ public class ProgressBarHandler {
 
         builder.setProgress(0, 0, false);
         builder.setContentText("Transfer Completed. " + pb.getTransferd() + "Images Transferd.");
-        notificationManager.notify(0,builder.build());
+        notificationManager.notify(0, builder.build());
 
     }
-
-
-
-
 }
