@@ -47,6 +47,7 @@ public class ProgressBarHandler {
 
         while (!pb.isFinished()) {
             builder.setProgress(pb.getLimit(), pb.getTransferd(), false);
+            builder.setContentText(pb.getTransferd() + "/" + pb.getLimit() + " images were transferred.");
             notificationManager.notify(0, builder.build());
             try {
                 Thread.sleep(200);
