@@ -60,7 +60,7 @@ public class TcpClient {
                     for (File pic : pics)
                     {
                         sendOnePicToserver(pic);
-                        
+
                     }
                     sendEndMsg();
                 }
