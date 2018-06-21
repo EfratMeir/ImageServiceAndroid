@@ -1,4 +1,5 @@
 package com.example.efrat.myapplication;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -18,12 +19,15 @@ import static android.util.Base64.encodeToString;
 public class TcpClient {
 
     private DirectoryHandler directoryHandler;
+    //private SendPhotoHandler sendHandler;
     private InetAddress serverAddr;
     private Socket socket;
     private OutputStream output;
+    private Context context;
 
-    public TcpClient(){
+    public TcpClient(Context context){
         this.directoryHandler = new DirectoryHandler();
+        this.context = context;
         connetToServer();
     }
     public void connetToServer(){
@@ -55,11 +59,16 @@ public class TcpClient {
             @Override
             public void run() {
         File[] pics = directoryHandler.getImages();
-                if (pics != null)
+
+           if (pics != null)
                 {
+                    SendPhotoHandler sendHandler = new SendPhotoHandler();
+                    sendHandler.Start(directoryHandler.getNumPics(), context); //initializes the prograss bar with numOfPics and runs it
+
                     for (File pic : pics)
                     {
                         sendOnePicToserver(pic);
+                            sendHandler.oneSent();  //updates the prograss bar...
 
                     }
                     sendEndMsg();
