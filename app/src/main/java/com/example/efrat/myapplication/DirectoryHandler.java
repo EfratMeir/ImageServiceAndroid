@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import java.io.File;
 
 public class DirectoryHandler {
+private int numOfPics = 0;
 
     public File[] getImages()
     {
@@ -17,7 +18,12 @@ public class DirectoryHandler {
             return null;
         }
         File[] pics = dcim.listFiles();
-
+        numOfPics = pics.length;
         return pics;
+    }
+
+    public int getNumPics()
+    {
+        return this.numOfPics;
     }
 }

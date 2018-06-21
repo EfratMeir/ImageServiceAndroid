@@ -26,7 +26,9 @@ public class ImageService extends Service {
     @Override
     public void onCreate()
     {
-        this.client = new TcpClient();
+        final Context context = this;
+
+        this.client = new TcpClient(context);
         super.onCreate();
         //put here code for the service
     }
@@ -37,17 +39,17 @@ public class ImageService extends Service {
                 Toast.LENGTH_SHORT).show();
 
         connectBroadcast();
-//tryout -  progress bar:
-        final Context context = this;
-        new Thread() {
-
-            @Override
-            public void run() {
-                ProgressBarHandler pbHandler = new ProgressBarHandler(new ProgressBar(50));
-                pbHandler.DisplayProgressBar(context);
-            }
-        }.start();
-        //end tryout
+////tryout -  progress bar:
+//        final Context context = this;
+//        new Thread() {
+//
+//            @Override
+//            public void run() {
+//                ProgressBarHandler pbHandler = new ProgressBarHandler(new ProgressBar());
+//                pbHandler.DisplayProgressBar(context);
+//            }
+//        }.start();
+//        //end tryout
         return START_STICKY;
     }
 

@@ -61,4 +61,9 @@ public class ProgressBarHandler {
         notificationManager.notify(0, builder.build());
 
     }
+
+    public void OneSent()
+    {
+        this.pb.Inc();
+    }
 }

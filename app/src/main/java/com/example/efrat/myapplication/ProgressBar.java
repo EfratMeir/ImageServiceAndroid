@@ -3,12 +3,11 @@ package com.example.efrat.myapplication;
 public class ProgressBar {
 
     private int transfered = 0;
-    private int limit;
+    private int limit = 0;
     boolean finished = false;
 
     /**
      * constructor
-     * @param numOfPics
      */
     public ProgressBar(int numOfPics)
     {
@@ -20,6 +19,10 @@ public class ProgressBar {
         return this.limit;
     }
 
+//    public void setLimit(int numOfPics)
+//    {
+//        this.limit = numOfPics;
+//    }
     public int getTransferd()
     {
         return this.transfered;
