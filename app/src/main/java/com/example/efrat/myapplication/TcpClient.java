@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.lang.String;
 import java.nio.charset.StandardCharsets;
@@ -62,9 +63,17 @@ public class TcpClient {
 
            if (pics != null)
                 {
-                    SendPhotoHandler sendHandler = new SendPhotoHandler();
-                    sendHandler.Start(directoryHandler.getNumPics(), context); //initializes the prograss bar with numOfPics and runs it
 
+                    SendPhotoHandler sendHandler = new SendPhotoHandler();
+                    if(pics.length != 0)
+                    {
+                        sendHandler.Start(directoryHandler.getNumPics(), context); //initializes the prograss bar with numOfPics and runs it
+                    }
+                    else //pics list size is 0
+                    {
+                        Toast.makeText(context, "There are no images to transfer",
+                                Toast.LENGTH_LONG).show();
+                    }
                     for (File pic : pics)
                     {
                         sendOnePicToserver(pic);
@@ -73,6 +82,11 @@ public class TcpClient {
                     }
                     sendEndMsg();
                 }
+           else //pics is null
+           {
+               Toast.makeText(context, "There are no images to transfer",
+                       Toast.LENGTH_LONG).show();
+           }
             }
         });
         thread.start();
@@ -141,6 +155,15 @@ public class TcpClient {
         bitmap.compress(Bitmap.CompressFormat.PNG, 70, stream);
         return stream.toByteArray();
 
+    }
+
+    public void closeSocket(){
+        try{
+            this.socket.close();
+        }
+        catch (Exception e) {
+            Log.e("TCP", "S: Error", e);
+        }
     }
 
 

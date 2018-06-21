@@ -13,6 +13,8 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import static java.lang.System.exit;
+
 public class ImageService extends Service {
     private BroadcastReceiver broadcastReceiver;
     private TcpClient client;
@@ -39,24 +41,15 @@ public class ImageService extends Service {
                 Toast.LENGTH_SHORT).show();
 
         connectBroadcast();
-////tryout -  progress bar:
-//        final Context context = this;
-//        new Thread() {
-//
-//            @Override
-//            public void run() {
-//                ProgressBarHandler pbHandler = new ProgressBarHandler(new ProgressBar());
-//                pbHandler.DisplayProgressBar(context);
-//            }
-//        }.start();
-//        //end tryout
         return START_STICKY;
     }
 
     public void onDestroy()
     {
+
         Toast.makeText(this, "Service ending...",
                 Toast.LENGTH_SHORT).show();
+        client.closeSocket();
     }
     public void connectBroadcast(){
         final IntentFilter filter = new IntentFilter();
