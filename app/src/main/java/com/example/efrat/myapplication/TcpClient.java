@@ -68,7 +68,7 @@ public class TcpClient {
                     for (File pic : pics)
                     {
                         sendOnePicToserver(pic);
-                            sendHandler.oneSent();  //updates the prograss bar...
+                        sendHandler.oneSent();  //updates the prograss bar...
 
                     }
                     sendEndMsg();
@@ -127,7 +127,14 @@ public class TcpClient {
             e.printStackTrace();
         }
     }
-
+    public void closeSocket(){
+        try{
+            this.socket.close();
+        }
+        catch (Exception e) {
+            Log.e("TCP", "S: Error", e);
+        }
+    }
     public byte[] ConvertPicToByte(Bitmap bitmap)
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
