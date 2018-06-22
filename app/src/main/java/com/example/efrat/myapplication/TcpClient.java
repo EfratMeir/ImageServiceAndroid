@@ -126,8 +126,6 @@ public class TcpClient {
      */
     public void sendOnePicToserver(File pic)
     {
-        //Log.d("myTag", "This is my message");
-
         try
         {
             FileInputStream fis = new FileInputStream(pic);
